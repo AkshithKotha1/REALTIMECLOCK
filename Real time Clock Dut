@@ -1,0 +1,34 @@
+// Code your design here
+module rtc(input clk,rst, output [3:0]hr,output [5:0]min,sec);
+  
+  reg [3:0]thr;
+  reg [5:0]tmin,tsec;
+  
+  always@(posedge clk)
+    begin
+      if(rst)
+        begin
+          thr<=0;
+          tmin<=0;
+          tsec<=0;
+        end
+      else
+        begin
+        tsec++;
+      
+          if(tsec==60)
+        begin
+          tsec<=0;
+          tmin++;
+        end
+          if(tmin==60)
+        begin
+          tmin<=0;
+          thr++;
+        end
+        end
+    end
+  assign sec=tsec;
+  assign min=tmin;
+  assign hr=thr;
+endmodule
