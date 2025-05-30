@@ -1,0 +1,28 @@
+module test;
+  
+  reg clk,rst;
+  wire [3:0]hr;
+  wire [5:0]min,sec;
+  real seconds=10**9;
+  rtc dut(clk,rst,hr,min,sec);
+  
+  initial begin
+    clk=0;
+    rst=1;
+    #(2*seconds) rst=0;
+    #(seconds*100000) $finish;
+    
+  end
+  
+  always
+    #(seconds/2) clk=~clk;
+  
+  always@(posedge clk)
+  
+    $display("simutime=%0t sec,clk=%b,rst=%b,sec=%d,min=%d,hr=%d",($time/(10**9)),clk,rst,sec,min,hr);
+  initial begin
+    $dumpfile("d.vcd");
+    $dumpvars(1,test);
+  end
+  
+endmodule
